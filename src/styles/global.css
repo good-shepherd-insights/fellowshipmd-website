@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@theme {
+	--font-body: "Bitter", Georgia, serif;
+	--font-heading: "Shrikhand", Georgia, serif;
+}
+
+body {
+	font-family: var(--font-body);
+}

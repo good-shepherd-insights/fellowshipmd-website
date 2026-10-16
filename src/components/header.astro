@@ -1,0 +1,83 @@
+---
+const aboutItems = [
+  { label: "Beliefs", href: "/beliefs" },
+  { label: "Leadership", href: "/leadership" },
+  { label: "Values", href: "/values" },
+];
+
+const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "";
+---
+
+<header class="fixed inset-x-0 top-0 z-50 bg-[hsl(0,0%,96.08%)] text-black">
+	<div class="mx-auto grid grid-cols-[auto_1fr] items-center gap-4 px-10 py-6 md:grid-cols-[1fr_auto_1fr]">
+		<nav class="hidden order-2 md:order-1 items-center gap-[38px] text-[22px] md:flex md:justify-self-start" aria-label="Main">
+			<a href="/" class:list={["hover:opacity-60", isHome && "underline underline-offset-8 decoration-1"]}>Home</a>
+
+			<div class="group relative">
+				<button class="flex items-center gap-1 hover:opacity-60" aria-expanded="false">
+					About Us
+					<svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+						<path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" />
+					</svg>
+				</button>
+				<div class="invisible absolute left-1/2 top-full -translate-x-1/2 pt-3 opacity-0 transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+					<ul class="w-44 rounded-lg bg-white py-2 text-black shadow-xl">
+						{aboutItems.map((item) => (
+							<li>
+								<a href={item.href} class="block px-4 py-2 text-sm hover:bg-black/5">
+									{item.label}
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			</div>
+
+			<a href="/connect" class="hover:opacity-60">Connect</a>
+			<a href="https://fellowshipchurchmd.churchcenter.com/giving" target="_blank" rel="noopener" class="hover:opacity-60">Give</a>
+		</nav>
+
+		<a href="/" class="order-1 md:order-2 md:justify-self-center">
+			<img src="/images/logo.webp" alt="Fellowship Church MD" class="h-14 w-auto" />
+		</a>
+
+		<div class="hidden items-center justify-self-end gap-6 md:order-3 md:flex">
+			<a href="https://www.instagram.com/fellowshipchurchmd/" target="_blank" rel="noopener" aria-label="Instagram" class="flex size-14 items-center justify-center border border-black transition hover:bg-black hover:text-white">
+				<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+					<rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+				</svg>
+			</a>
+			<a href="https://www.facebook.com/fellowshipchurchmd" target="_blank" rel="noopener" aria-label="Facebook" class="flex size-14 items-center justify-center border border-black transition hover:bg-black hover:text-white">
+				<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+					<path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H7v3h3v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1z" />
+				</svg>
+			</a>
+		</div>
+
+		<button id="menu-toggle" class="order-1 justify-self-end md:hidden" aria-label="Open menu" aria-expanded="false">
+			<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+				<path d="M3 6h18M3 12h18M3 18h18" />
+			</svg>
+		</button>
+	</div>
+
+	<nav id="mobile-menu" class="hidden border-t border-black/10 bg-[hsl(0,0%,96.08%)] px-6 py-4 md:hidden" aria-label="Mobile">
+		<a href="/" class="block py-2">Home</a>
+		<p class="pb-1 pt-3 text-xs uppercase tracking-widest opacity-50">About Us</p>
+		{aboutItems.map((item) => (
+			<a href={item.href} class="block py-2 pl-4">{item.label}</a>
+		))}
+		<a href="/connect" class="block py-2">Connect</a>
+		<a href="https://fellowshipchurchmd.churchcenter.com/giving" target="_blank" rel="noopener" class="block py-2">Give</a>
+	</nav>
+</header>
+
+<script>
+	const menuToggle = document.getElementById("menu-toggle");
+	const mobileMenu = document.getElementById("mobile-menu");
+
+	menuToggle.addEventListener("click", () => {
+		const open = mobileMenu.classList.toggle("hidden") === false;
+		menuToggle.setAttribute("aria-expanded", String(open));
+	});
+</script>

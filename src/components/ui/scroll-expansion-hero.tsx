@@ -7,6 +7,7 @@ import {
   type WheelEvent,
 } from "react";
 import { motion } from "framer-motion";
+import { Play } from "lucide-react";
 
 interface ScrollExpandMediaProps {
   mediaType?: "video" | "image";
@@ -17,6 +18,7 @@ interface ScrollExpandMediaProps {
   date?: string;
   scrollToExpand?: string;
   textBlend?: boolean;
+  actions?: ReactNode;
   children?: ReactNode;
 }
 
@@ -29,6 +31,7 @@ const ScrollExpandMedia = ({
   date,
   scrollToExpand,
   textBlend,
+  actions,
   children,
 }: ScrollExpandMediaProps) => {
   const [scrollProgress, setScrollProgress] = useState<number>(0);
@@ -36,8 +39,10 @@ const ScrollExpandMedia = ({
   const [mediaFullyExpanded, setMediaFullyExpanded] = useState<boolean>(false);
   const [touchStartY, setTouchStartY] = useState<number>(0);
   const [isMobileState, setIsMobileState] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const sectionRef = useRef<HTMLDivElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     setScrollProgress(0);
@@ -161,8 +166,9 @@ const ScrollExpandMedia = ({
   const mediaHeight = 400 + scrollProgress * (isMobileState ? 200 : 400);
   const textTranslateX = scrollProgress * (isMobileState ? 180 : 150);
 
-  const firstWord = title ? title.split(" ")[0] : "";
-  const restOfTitle = title ? title.split(" ").slice(1).join(" ") : "";
+  const titleSplit = title ? title.match(/^(.*?[.!?])\s+(.*)$/s) : null;
+  const firstWord = titleSplit ? titleSplit[1] : title || "";
+  const restOfTitle = titleSplit ? titleSplit[2] : "";
 
   return (
     <div
@@ -182,7 +188,7 @@ const ScrollExpandMedia = ({
               alt="Background"
               className="w-screen h-screen object-cover object-center"
             />
-            <div className="absolute inset-0 bg-black/10" />
+            <div className="absolute inset-0 bg-black/41" />
           </motion.div>
 
           <div className="container mx-auto flex flex-col items-center justify-start relative z-10">
@@ -193,8 +199,9 @@ const ScrollExpandMedia = ({
                   width: `${mediaWidth}px`,
                   height: `${mediaHeight}px`,
                   maxWidth: "95vw",
-                  maxHeight: "85vh",
+                  maxHeight: "52vh",
                   boxShadow: "0px 0px 50px rgba(0, 0, 0, 0.3)",
+                  opacity: Math.min(scrollProgress * 3, 1),
                 }}
               >
                 {mediaType === "video" ? (
@@ -230,11 +237,24 @@ const ScrollExpandMedia = ({
                       />
                     </div>
                   ) : (
-                    <div className="relative w-full h-full pointer-events-none">
+                    <div
+                      className="relative w-full h-full cursor-pointer"
+                      onClick={() => {
+                        const v = videoRef.current;
+                        if (!v) return;
+                        if (v.paused) {
+                          void v.play();
+                          setIsPlaying(true);
+                        } else {
+                          v.pause();
+                          setIsPlaying(false);
+                        }
+                      }}
+                    >
                       <video
+                        ref={videoRef}
                         src={mediaSrc}
                         poster={posterSrc}
-                        autoPlay
                         muted
                         loop
                         playsInline
@@ -244,17 +264,23 @@ const ScrollExpandMedia = ({
                         disablePictureInPicture
                         disableRemotePlayback
                       />
-                      <div
-                        className="absolute inset-0 z-10"
-                        style={{ pointerEvents: "none" }}
-                      ></div>
 
                       <motion.div
-                        className="absolute inset-0 bg-black/30 rounded-xl"
+                        className="absolute inset-0 bg-black/30 rounded-xl pointer-events-none"
                         initial={{ opacity: 0.7 }}
                         animate={{ opacity: 0.5 - scrollProgress * 0.3 }}
                         transition={{ duration: 0.2 }}
                       />
+
+                      {!isPlaying && (
+                        <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+                          <Play
+                            size={72}
+                            className="text-white drop-shadow-lg"
+                            fill="white"
+                          />
+                        </div>
+                      )}
                     </div>
                   )
                 ) : (
@@ -277,7 +303,7 @@ const ScrollExpandMedia = ({
                 <div className="flex flex-col items-center text-center relative z-10 mt-4 transition-none">
                   {date && (
                     <p
-                      className="text-2xl text-blue-200"
+                      className="text-2xl text-white"
                       style={{ transform: `translateX(-${textTranslateX}vw)` }}
                     >
                       {date}
@@ -285,7 +311,7 @@ const ScrollExpandMedia = ({
                   )}
                   {scrollToExpand && (
                     <p
-                      className="text-blue-200 font-medium text-center"
+                      className="text-white font-medium text-center"
                       style={{ transform: `translateX(${textTranslateX}vw)` }}
                     >
                       {scrollToExpand}
@@ -295,22 +321,29 @@ const ScrollExpandMedia = ({
               </div>
 
               <div
-                className={`flex items-center justify-center text-center gap-4 w-full relative z-10 transition-none flex-col ${
+                className={`absolute inset-x-0 z-10 text-center transition-none ${
                   textBlend ? "mix-blend-difference" : "mix-blend-normal"
                 }`}
+                style={{
+                  bottom: `min(calc(50% + 1rem + (min(${mediaHeight}px, 52vh)/2 + 0.75rem) * ${scrollProgress}), calc(100dvh - 9rem))`,
+                }}
               >
-                <motion.h2
-                  className="text-4xl md:text-5xl lg:text-6xl font-bold text-blue-200 transition-none"
-                  style={{ transform: `translateX(-${textTranslateX}vw)` }}
-                >
+                <motion.h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white transition-none">
                   {firstWord}
                 </motion.h2>
-                <motion.h2
-                  className="text-4xl md:text-5xl lg:text-6xl font-bold text-center text-blue-200 transition-none"
-                  style={{ transform: `translateX(${textTranslateX}vw)` }}
-                >
+              </div>
+              <div
+                className={`absolute inset-x-0 z-10 flex flex-col items-center gap-10 text-center transition-none ${
+                  textBlend ? "mix-blend-difference" : "mix-blend-normal"
+                }`}
+                style={{
+                  top: `calc(50% + 1rem + (min(${mediaHeight}px, 52vh)/2 + 1.5rem) * ${scrollProgress})`,
+                }}
+              >
+                <motion.h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-center text-white transition-none">
                   {restOfTitle}
                 </motion.h2>
+                {actions}
               </div>
             </div>
 

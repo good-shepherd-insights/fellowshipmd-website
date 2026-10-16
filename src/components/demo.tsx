@@ -58,14 +58,14 @@ const MediaContent = ({ mediaType }: { mediaType: "video" | "image" }) => {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h2 className="text-3xl font-bold mb-6 text-black dark:text-white">
+      <h2 className="text-3xl font-bold mb-6 text-white">
         About This Component
       </h2>
-      <p className="text-lg mb-8 text-black dark:text-white">
+      <p className="text-lg mb-8 text-white">
         {currentMedia.about.overview}
       </p>
 
-      <p className="text-lg mb-8 text-black dark:text-white">
+      <p className="text-lg mb-8 text-white">
         {currentMedia.about.conclusion}
       </p>
     </div>
@@ -200,11 +200,26 @@ function Demo() {
       <ScrollExpandMedia
         mediaType={mediaType}
         mediaSrc={currentMedia.src}
-        posterSrc={currentMedia.poster}
-        bgImageSrc={currentMedia.background}
-        title={currentMedia.title}
-        date={currentMedia.date}
-        scrollToExpand={currentMedia.scrollToExpand}
+        bgImageSrc="/images/hero.webp"
+        title="MEET JESUS. BE TRANSFORMED."
+        actions={
+          <div className="flex items-center gap-5">
+            <a
+              href="/connect"
+              className="rounded-md bg-white px-9 py-4 text-lg font-medium whitespace-nowrap text-black transition hover:opacity-90"
+            >
+              Join us for Service
+            </a>
+            <a
+              href="https://www.youtube.com/@fellowshipchurchmd/streams"
+              target="_blank"
+              rel="noopener"
+              className="rounded-md border border-white px-9 py-4 text-lg font-medium whitespace-nowrap text-white transition hover:bg-white/10"
+            >
+              Stream Online
+            </a>
+          </div>
+        }
       >
         <MediaContent mediaType={mediaType} />
       </ScrollExpandMedia>
