@@ -5,11 +5,16 @@ import SiteFooter from "@/components/footer";
 
 interface Props {
   title: string;
+  description: string;
 }
 
-const { title } = Astro.props;
+const { title, description } = Astro.props;
+const siteBase = Astro.site ?? Astro.url.origin;
 const slug = Astro.url.pathname.replace(/\/$/, '') || '/index';
-const ogImage = new URL(`/open-graph${slug === '/index' ? '/index' : slug}.png`, Astro.site ?? Astro.url.origin).href;
+const path = slug === '/index' ? '/' : slug;
+const canonical = new URL(path, siteBase).href;
+const ogImage = new URL(`/open-graph${slug === '/index' ? '/index' : slug}.png`, siteBase).href;
+const fullTitle = `${title} — Fellowship Church MD`;
 ---
 
 <html lang="en">
@@ -17,13 +22,24 @@ const ogImage = new URL(`/open-graph${slug === '/index' ? '/index' : slug}.png`,
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
-		<meta property="og:title" content={`${title} — Fellowship Church MD`} />
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonical} />
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Fellowship Church MD" />
+		<meta property="og:title" content={fullTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
 		<meta property="og:image" content={ogImage} />
-		<meta name="twitter:card" content="summary" />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={fullTitle} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,700;1,700;1,900&family=Shrikhand&display=swap" rel="stylesheet" />
-		<title>{title} — Fellowship Church MD</title>
+		<title>{fullTitle}</title>
 	</head>
 	<body data-inner class="min-h-screen bg-[hsl(0,0%,96.08%)] text-[rgb(18,18,18)]">
 		<Header />
