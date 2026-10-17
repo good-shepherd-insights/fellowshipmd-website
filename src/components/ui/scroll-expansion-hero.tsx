@@ -192,7 +192,7 @@ const ScrollExpandMedia = ({
           </motion.div>
 
           <div className="container mx-auto flex flex-col items-center justify-start relative z-10">
-            <div className="flex flex-col items-center justify-center w-full h-[100dvh] relative">
+            <div className="flex flex-col items-center justify-center w-full h-[100dvh] relative mb-[120px]">
               <div
                 className="absolute z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-none rounded-2xl"
                 style={{
@@ -348,7 +348,7 @@ const ScrollExpandMedia = ({
             </div>
 
             <motion.section
-              className="flex flex-col w-full px-8 py-10 md:px-16 lg:py-20"
+              className="flex w-full flex-col"
               initial={{ opacity: 0 }}
               animate={{ opacity: showContent ? 1 : 0 }}
               transition={{ duration: 0.7 }}

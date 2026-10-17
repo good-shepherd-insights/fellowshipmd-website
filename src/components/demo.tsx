@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
+import SiteFooter from "@/components/footer";
 
 interface MediaAbout {
   overview: string;
@@ -53,22 +54,134 @@ const sampleMediaContent: MediaContentCollection = {
   },
 };
 
-const MediaContent = ({ mediaType }: { mediaType: "video" | "image" }) => {
-  const currentMedia = sampleMediaContent[mediaType];
-
+const MediaContent = () => {
   return (
-    <div className="max-w-4xl mx-auto">
-      <h2 className="text-3xl font-bold mb-6 text-white">
-        About This Component
-      </h2>
-      <p className="text-lg mb-8 text-white">
-        {currentMedia.about.overview}
-      </p>
-
-      <p className="text-lg mb-8 text-white">
-        {currentMedia.about.conclusion}
-      </p>
-    </div>
+    <>
+      <div className="relative left-1/2 w-screen -translate-x-1/2 bg-[hsl(0,0%,96.08%)] py-16 text-center text-black">
+      <div className="mx-auto max-w-4xl px-8">
+        <h2 className="font-heading text-3xl md:text-4xl mb-8 text-black">
+          About Us
+        </h2>
+        <p className="text-lg mb-10 text-black">
+          Here at Fellowship Church, we’re all about helping people meet Jesus
+          and experience the life-changing power of His love.
+        </p>
+        <a
+          href="/beliefs"
+          className="inline-block rounded-md border border-black px-9 py-4 text-lg font-medium whitespace-nowrap text-black transition hover:bg-black hover:text-white"
+        >
+          Learn More
+        </a>
+      </div>
+      <div className="mx-auto mt-14 grid max-w-[1356px] grid-cols-1 gap-9 px-11 md:grid-cols-2">
+        <a href="/beliefs" className="block">
+          <img
+            src="/images/cards/new-here.webp"
+            alt="New Here? Learn about who we are and what we believe"
+            className="aspect-[2500/1648] w-full rounded-3xl object-cover"
+          />
+        </a>
+        <a href="/prayer" className="block">
+          <img
+            src="/images/cards/prayer.webp"
+            alt="Prayer & Care. Need prayer or support? We’re here to help"
+            className="aspect-[2500/1648] w-full rounded-3xl object-cover"
+          />
+        </a>
+        <img
+          src="/images/cards/serve.webp"
+          alt="Serve with Us. Use your gifts to serve those around you"
+          className="aspect-[2500/1648] w-full rounded-3xl object-cover"
+        />
+        <a
+          href="https://fellowshipchurchmd.churchcenter.com/calendar?view=month"
+          target="_blank"
+          rel="noopener"
+          className="block"
+        >
+          <img
+            src="/images/cards/upcoming.webp"
+            alt="Upcoming Events. Stay connected with groups and activities"
+            className="aspect-[2500/1648] w-full rounded-3xl object-cover"
+          />
+        </a>
+        </div>
+      </div>
+      <div className="relative left-1/2 w-screen -translate-x-1/2 bg-[hsl(0,0%,96.08%)] py-24 text-black">
+        <div className="mx-auto grid max-w-[1356px] grid-cols-1 items-center gap-10 px-11 md:grid-cols-2">
+          <div className="text-center">
+            <img
+              src="/images/quotation.webp"
+              alt=""
+              className="mx-auto mb-10 w-20"
+            />
+            <blockquote>
+              <p className="text-2xl leading-relaxed">
+                "Every good gift and every perfect gift is from above, coming
+                down from the Father of lights."
+              </p>
+              <p className="mt-6 text-2xl">James 1:17</p>
+            </blockquote>
+          </div>
+          <div>
+            <h4 className="font-heading mb-10 text-center text-3xl">
+              The Latest Sermon
+            </h4>
+            <video
+              src="/videos/latest-sermon.mp4"
+              poster="/images/sermon-poster.webp"
+              controls
+              preload="metadata"
+              className="w-full"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="relative left-1/2 w-screen -translate-x-1/2 py-32 text-center">
+        <img
+          src="/images/stay-loop-bg.webp"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-black/55" />
+        <div className="relative z-10">
+          <h2 className="font-heading mb-24 text-5xl text-[hsl(0,0%,96.08%)] md:text-7xl">
+            Stay in the Loop
+          </h2>
+          <div className="flex items-center justify-center gap-28">
+          <a
+            href="https://www.facebook.com/fellowshipchurchmd"
+            target="_blank"
+            rel="noopener"
+            aria-label="Facebook"
+          >
+            <img src="/images/facebook.webp" alt="Facebook" className="w-32" />
+          </a>
+          <a
+            href="https://www.youtube.com/channel/UC9l9Gk14Uy1OzuLZJT1hb9A"
+            target="_blank"
+            rel="noopener"
+            aria-label="YouTube"
+          >
+            <img src="/images/youtube.webp" alt="YouTube" className="w-32" />
+          </a>
+          <a
+            href="https://www.instagram.com/fellowshipchurchmd/"
+            target="_blank"
+            rel="noopener"
+            aria-label="Instagram"
+          >
+            <img
+              src="/images/instagram.webp"
+              alt="Instagram"
+              className="w-32"
+            />
+          </a>
+          </div>
+        </div>
+      </div>
+      <SiteFooter />
+    </>
   );
 };
 
@@ -95,7 +208,7 @@ export const VideoExpansionTextBlend = () => {
         scrollToExpand={currentMedia.scrollToExpand}
         textBlend
       >
-        <MediaContent mediaType={mediaType} />
+        <MediaContent />
       </ScrollExpandMedia>
     </div>
   );
@@ -123,7 +236,7 @@ export const ImageExpansionTextBlend = () => {
         scrollToExpand={currentMedia.scrollToExpand}
         textBlend
       >
-        <MediaContent mediaType={mediaType} />
+        <MediaContent />
       </ScrollExpandMedia>
     </div>
   );
@@ -151,7 +264,7 @@ export const VideoExpansion = () => {
         date={currentMedia.date}
         scrollToExpand={currentMedia.scrollToExpand}
       >
-        <MediaContent mediaType={mediaType} />
+        <MediaContent />
       </ScrollExpandMedia>
     </div>
   );
@@ -178,7 +291,7 @@ export const ImageExpansion = () => {
         date={currentMedia.date}
         scrollToExpand={currentMedia.scrollToExpand}
       >
-        <MediaContent mediaType={mediaType} />
+        <MediaContent />
       </ScrollExpandMedia>
     </div>
   );
@@ -221,7 +334,7 @@ function Demo() {
           </div>
         }
       >
-        <MediaContent mediaType={mediaType} />
+        <MediaContent />
       </ScrollExpandMedia>
     </div>
   );

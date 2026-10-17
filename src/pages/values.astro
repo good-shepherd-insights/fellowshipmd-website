@@ -3,4 +3,74 @@ import Layout from "@/layouts/page.astro";
 ---
 
 <Layout title="Values">
+  <!-- 1. Hero -->
+  <section class="px-6 py-10 md:bg-[rgb(18,18,18)] md:px-0 md:py-0">
+    <div class="relative mx-auto max-w-[1440px] md:h-[565px]">
+      <div class="relative md:absolute md:inset-x-[43px] md:top-[93px] md:h-[428px]">
+        <img
+          src="/images/pages/fc18-bg.webp"
+          alt=""
+          class="h-[320px] w-full object-cover md:h-[428px]"
+        />
+        <div class="absolute inset-0 bg-black/60"></div>
+        <div class="absolute left-[43px] top-[50px] md:left-[43px]">
+          <h1 class="font-heading text-[clamp(44px,6.86vw,98.8px)] leading-none tracking-[-1.98px] text-[hsl(0,0%,96.08%)]">
+            OUR VALUES
+          </h1>
+          <h4 class="font-heading mt-2 text-[clamp(18px,1.83vw,26.368px)] leading-none tracking-[-0.53px] text-[hsl(0,0%,96.08%)]">
+            What Makes Us, Us?
+          </h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Value panels + photos -->
+  <section class="mt-10 py-0 md:mt-0 md:py-[43px]">
+    <div class="mx-auto grid max-w-[1440px] grid-cols-1 gap-0 px-6 md:grid-cols-2 md:px-[43px]">
+      <div class="flex flex-col">
+        <img src="/images/pages/panel1.webp" alt="Prayer" class="w-full" />
+        <img src="/images/pages/card1.webp" alt="" class="w-full" />
+        <img src="/images/pages/panel3.webp" alt="Discipleship" class="w-full" />
+        <img src="/images/pages/card4.webp" alt="" class="w-full" />
+      </div>
+      <div class="flex flex-col">
+        <img src="/images/pages/card2.webp" alt="" class="w-full" />
+        <img src="/images/pages/panel2.webp" alt="Fellowship" class="w-full" />
+        <img src="/images/pages/card3.webp" alt="" class="w-full" />
+        <img src="/images/pages/panel4.webp" alt="Growth" class="w-full" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Connect with us -->
+  <section class="py-16 md:h-[270px] md:py-0">
+    <div class="relative mx-auto flex max-w-[1440px] items-center justify-center md:h-full">
+      <h3 class="font-heading text-center text-[clamp(24px,2.55vw,36.736px)] leading-none tracking-[-0.73px]">
+        <span class="relative inline-block">
+          <a
+            href="/connect"
+            class="relative text-[rgb(174,30,50)]"
+          >
+            CONNECT WITH US
+            <svg
+              class="absolute -bottom-[14px] -left-[26px] -right-[26px] -top-[12px] w-[calc(100%+52px)]"
+              viewBox="0 0 340 70"
+              fill="none"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M 14 58 C 0 40 30 8 170 8 C 310 8 340 40 326 56 C 312 70 200 66 120 62 C 70 60 30 62 40 52"
+                stroke="black"
+                stroke-width="5"
+                stroke-linecap="square"
+                fill="none"
+              />
+            </svg>
+          </a>
+        </span>
+      </h3>
+    </div>
+  </section>
 </Layout>
