@@ -13,7 +13,8 @@ const siteBase = Astro.site ?? Astro.url.origin;
 const slug = Astro.url.pathname.replace(/\/$/, '') || '/index';
 const path = slug === '/index' ? '/' : slug;
 const canonical = new URL(path, siteBase).href;
-const ogImage = new URL(`/open-graph${slug === '/index' ? '/index' : slug}.png`, siteBase).href;
+// CDN caches /open-graph/*.png aggressively; bump v after regenerating screenshots
+const ogImage = `${new URL(`/open-graph${slug === '/index' ? '/index' : slug}.png`, siteBase).href}?v=2`;
 const fullTitle = `${title} — Fellowship Church MD`;
 ---
 
