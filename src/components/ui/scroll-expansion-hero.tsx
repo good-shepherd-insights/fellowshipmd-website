@@ -242,6 +242,7 @@ const ScrollExpandMedia = ({
                       onClick={() => {
                         const v = videoRef.current;
                         if (!v) return;
+                        v.muted = false;
                         if (v.paused) {
                           void v.play();
                           setIsPlaying(true);
