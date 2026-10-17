@@ -209,7 +209,8 @@ const ScrollExpandMedia = ({
             <img
               src={bgImageSrc}
               alt="Background"
-              className="w-screen h-screen object-cover object-center"
+              className="h-screen w-screen object-contain"
+              style={{ backgroundColor: "#000" }}
             />
             <div className="absolute inset-0 bg-black/41" />
           </motion.div>
