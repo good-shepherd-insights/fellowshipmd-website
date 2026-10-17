@@ -73,7 +73,7 @@ const MediaContent = () => {
           Learn More
         </a>
       </div>
-      <div className="mx-auto mt-14 grid max-w-[1356px] grid-cols-1 gap-9 px-11 md:grid-cols-2">
+      <div className="mx-auto mt-14 grid max-w-[1356px] grid-cols-1 gap-4 px-4 md:gap-9 md:px-11 md:grid-cols-2">
         <a href="/beliefs" className="block">
           <img
             src="/images/cards/new-here.webp"
@@ -316,10 +316,10 @@ function Demo() {
         bgImageSrc="/images/hero.webp"
         title="MEET JESUS. BE TRANSFORMED."
         actions={
-          <div className="flex items-center gap-5">
+          <div className="flex items-center justify-center gap-[clamp(8px,2vw,20px)] px-4">
             <a
               href="/connect"
-              className="rounded-md bg-white px-9 py-4 text-lg font-medium whitespace-nowrap text-black transition hover:opacity-90"
+              className="rounded-md bg-white px-[clamp(12px,3.5vw,36px)] py-[clamp(10px,2.5vw,16px)] text-[clamp(13px,3.6vw,18px)] font-medium whitespace-nowrap text-black transition hover:opacity-90"
             >
               Join us for Service
             </a>
@@ -327,7 +327,7 @@ function Demo() {
               href="https://www.youtube.com/@fellowshipchurchmd/streams"
               target="_blank"
               rel="noopener"
-              className="rounded-md border border-white px-9 py-4 text-lg font-medium whitespace-nowrap text-white transition hover:bg-white/10"
+              className="rounded-md border border-white px-[clamp(12px,3.5vw,36px)] py-[clamp(10px,2.5vw,16px)] text-[clamp(13px,3.6vw,18px)] font-medium whitespace-nowrap text-white transition hover:bg-white/10"
             >
               Stream Online
             </a>

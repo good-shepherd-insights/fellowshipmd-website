@@ -8,7 +8,7 @@ const aboutItems = [
 const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "";
 ---
 
-<header class="fixed inset-x-0 top-0 z-50 bg-[hsl(0,0%,96.08%)] text-black">
+<header class="fixed inset-x-0 top-0 z-50 bg-[hsl(0,0%,96.08%)] text-black backdrop-blur-md">
 	<div class="mx-auto grid grid-cols-[auto_1fr] items-center gap-4 px-10 py-6 md:grid-cols-[1fr_auto_1fr]">
 		<nav class="hidden order-2 md:order-1 items-center gap-[38px] text-[22px] md:flex md:justify-self-start" aria-label="Main">
 			<a href="/" class:list={["hover:opacity-60", isHome && "underline underline-offset-8 decoration-1"]}>Home</a>

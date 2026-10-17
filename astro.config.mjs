@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://www.fellowshipmd.church',
+  site: 'https://fellowship.equipchurch.center',
   integrations: [react()],
 
   vite: {
