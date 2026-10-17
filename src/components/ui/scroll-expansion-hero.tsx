@@ -206,11 +206,18 @@ const ScrollExpandMedia = ({
             animate={{ opacity: 1 - scrollProgress }}
             transition={{ duration: 0.1 }}
           >
+            <div className="absolute inset-0 overflow-hidden bg-black">
+              <img
+                src={bgImageSrc}
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 h-full w-full scale-125 object-cover blur-lg saturate-150 brightness-[1.35]"
+              />
+            </div>
             <img
               src={bgImageSrc}
               alt="Background"
-              className="h-screen w-screen object-contain"
-              style={{ backgroundColor: "#000" }}
+              className="relative h-screen w-screen scale-[1.32] object-contain md:scale-[1.12] lg:scale-100"
             />
             <div className="absolute inset-0 bg-black/41" />
           </motion.div>
