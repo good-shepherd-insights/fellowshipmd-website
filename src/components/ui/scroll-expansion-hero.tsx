@@ -7,7 +7,7 @@ import {
   type WheelEvent,
 } from "react";
 import { motion } from "framer-motion";
-import { Play } from "lucide-react";
+import { Play, Volume2, VolumeX } from "lucide-react";
 
 interface ScrollExpandMediaProps {
   mediaType?: "video" | "image";
@@ -40,9 +40,12 @@ const ScrollExpandMedia = ({
   const [touchStartY, setTouchStartY] = useState<number>(0);
   const [isMobileState, setIsMobileState] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isMuted, setIsMuted] = useState<boolean>(true);
+  const [heroInView, setHeroInView] = useState<boolean>(true);
 
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const heroWrapRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setScrollProgress(0);
@@ -162,6 +165,26 @@ const ScrollExpandMedia = ({
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
+  useEffect(() => {
+    const el = heroWrapRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setHeroInView(entry.intersectionRatio > 0.5),
+      { threshold: [0, 0.5, 1] },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (mediaType !== "video" || mediaSrc.includes("youtube.com")) return;
+    const v = videoRef.current;
+    if (!v) return;
+    const shouldPlay = scrollProgress >= 0.7 && heroInView;
+    if (shouldPlay && v.paused) void v.play().catch(() => undefined);
+    if (!shouldPlay && !v.paused) v.pause();
+  }, [scrollProgress, heroInView, mediaType, mediaSrc]);
+
   const mediaWidth = 300 + scrollProgress * (isMobileState ? 650 : 1250);
   const mediaHeight = 400 + scrollProgress * (isMobileState ? 200 : 400);
   const textTranslateX = scrollProgress * (isMobileState ? 180 : 150);
@@ -192,7 +215,7 @@ const ScrollExpandMedia = ({
           </motion.div>
 
           <div className="container mx-auto flex flex-col items-center justify-start relative z-10">
-            <div className="flex flex-col items-center justify-center w-full h-[100dvh] relative mb-[120px]">
+            <div ref={heroWrapRef} className="flex flex-col items-center justify-center w-full h-[100dvh] relative mb-[120px]">
               <div
                 className="absolute z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-none rounded-2xl"
                 style={{
@@ -242,13 +265,10 @@ const ScrollExpandMedia = ({
                       onClick={() => {
                         const v = videoRef.current;
                         if (!v) return;
-                        v.muted = false;
                         if (v.paused) {
-                          void v.play();
-                          setIsPlaying(true);
+                          void v.play().catch(() => undefined);
                         } else {
                           v.pause();
-                          setIsPlaying(false);
                         }
                       }}
                     >
@@ -256,7 +276,7 @@ const ScrollExpandMedia = ({
                         ref={videoRef}
                         src={mediaSrc}
                         poster={posterSrc}
-                        muted
+                        muted={isMuted}
                         loop
                         playsInline
                         preload="auto"
@@ -264,6 +284,8 @@ const ScrollExpandMedia = ({
                         controls={false}
                         disablePictureInPicture
                         disableRemotePlayback
+                        onPlay={() => setIsPlaying(true)}
+                        onPause={() => setIsPlaying(false)}
                       />
 
                       <motion.div
@@ -282,6 +304,24 @@ const ScrollExpandMedia = ({
                           />
                         </div>
                       )}
+
+                      <button
+                        type="button"
+                        aria-label={isMuted ? "Unmute video" : "Mute video"}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const v = videoRef.current;
+                          if (!v) return;
+                          const next = !isMuted;
+                          v.muted = next;
+                          setIsMuted(next);
+                          if (next === false && v.paused)
+                            void v.play().catch(() => undefined);
+                        }}
+                        className="absolute bottom-3 left-3 z-30 flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur transition hover:bg-black/70"
+                      >
+                        {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+                      </button>
                     </div>
                   )
                 ) : (
